@@ -16,24 +16,9 @@ MN.Battler = function(arena) {
 	this.tile = this.arena.getTile();
 	this.moveToTile(this.tile);
 
-	this.setupEvents();
 };
 
 MN.Battler.prototype = _.extend(Object.create(MN.Sprite.prototype),{
-
-	setupEvents: function() {
-		upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-		upKey.onDown.add(this.moveUp, this);
-
-		rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-		rightKey.onDown.add(this.moveRight, this);
-
-		downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-		downKey.onDown.add(this.moveDown, this);
-
-		leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-		leftKey.onDown.add(this.moveLeft, this);
-	},
 
 	moveUp: function() {
 		var newTile = [this.tile.coordinates[0], this.tile.coordinates[1]-1];

@@ -9,7 +9,7 @@ MN.Arena.prototype = {
 
 	setup: function() {
 		this.initTiles();
-		var battler = new MN.Battler(this);
+		var hero = new MN.Hero(this);
 	},
 
 	initTiles: function() {
