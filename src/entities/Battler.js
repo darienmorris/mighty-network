@@ -7,24 +7,67 @@
 
 // TODO: should the battle extend a sprite, or have a sprite as a property?
 
-MN.Battler = function(game) {
-	Phaser.Sprite.call(this, game, game.world.randomX, game.world.randomY, 'player');
+MN.Battler = function(arena) {
+	MN.Sprite.call(this, game, game.world.randomX, game.world.randomY, 'player');
 
 	game.add.existing(this);
+
+	this.arena = arena;
+	this.tile = this.arena.getTile();
+	this.moveToTile(this.tile);
+
+	this.setupEvents();
 };
 
-MN.Battler.prototype = Object.create(Phaser.Sprite.prototype);
-MN.Battler.prototype.constructor = MN.Battler;
+MN.Battler.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 
+	setupEvents: function() {
+		upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+		upKey.onDown.add(this.moveUp, this);
 
-// key1 = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-// 	    //key1.onDown.add(onUp, this);
+		rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+		rightKey.onDown.add(this.moveRight, this);
 
-// 	    key2 = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-// 	   // key2.onDown.add(onRight, this);
+		downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+		downKey.onDown.add(this.moveDown, this);
 
-// 	    key3 = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-// 	    // key3.onDown.add(onDown, this);
+		leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+		leftKey.onDown.add(this.moveLeft, this);
+	},
 
-// 	    key3 = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-// 	    // key3.onDown.add(onLeft, this);
+	moveUp: function() {
+		var newTile = [this.tile.coordinates[0], this.tile.coordinates[1]-1];
+		this.processMove(newTile);
+	},
+
+	moveRight: function() {
+		var newTile = [this.tile.coordinates[0]+1, this.tile.coordinates[1]];
+		this.processMove(newTile);
+	},
+
+	moveDown: function() {
+		var newTile = [this.tile.coordinates[0], this.tile.coordinates[1]+1];
+		this.processMove(newTile);
+	},
+
+	moveLeft: function() {
+		var newTile = [this.tile.coordinates[0]-1, this.tile.coordinates[1]];
+		this.processMove(newTile);
+	},
+
+	processMove: function(newCoordinates) {
+		var validTile = this.arena.tryMove(this.tile.coordinates, newCoordinates);
+		if(validTile) {
+			this.moveToTile(validTile);
+			return true;
+		}
+		return false;
+	},
+
+	moveToTile: function(newTile) {
+		this.tile = newTile;
+		this.x = this.tile.x;
+		this.y = this.tile.y;
+	}
+
+});

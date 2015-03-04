@@ -7,6 +7,8 @@ var MN = {
 
 function preload() {
 	game.load.image('player', 'assets/sprites/player.png');
+    game.load.image('tile', 'assets/sprites/tile.png');
+
 }
 
 function create() {

@@ -8,29 +8,12 @@ MN.State.Battle.prototype = {
 	create: function() {
 		//this.player = game.user.getBattler();
 
+		var arena = new MN.Arena();
 
-	    
-
-	    var battler = new MN.Battler(game);
 	},
 
 	update: function() {
 
 	}
 
-	// function onUp() {
-	// 	player.y -= 50;
-	// }
-
-	// function onRight() {
-	// 	player.x += 50;
-	// }
-
-	// function onDown() {
-	// 	player.y += 50;
-	// }
-
-	// function onLeft() {
-	// 	player.x -= 50;
-	// }
 }
