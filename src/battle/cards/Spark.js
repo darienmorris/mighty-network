@@ -9,7 +9,7 @@ MN.Spark = function(battler){
 MN.Spark.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 	use: function() {
 		game.add.existing(this);
-		this.body.velocity.x = 300;
+		this.body.velocity.x = 500;
 	},
 
 	update: function() {
