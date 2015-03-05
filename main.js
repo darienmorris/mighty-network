@@ -8,10 +8,14 @@ var MN = {
 function preload() {
 	game.load.image('player', 'assets/sprites/player.png');
     game.load.image('tile', 'assets/sprites/tile.png');
+    game.load.image('spark', 'assets/sprites/spark.png');
+
 
 }
 
 function create() {
+	game.physics.startSystem(Phaser.Physics.ARCADE);
+	// game.physics.p2.setImpactEvents(true);
 	game.stage.backgroundColor = '#736357';
 
     //  Here we create 3 hotkeys, keys 1-3 and bind them all to their own functions

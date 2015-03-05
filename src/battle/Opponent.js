@@ -1,10 +1,14 @@
-MN.Hero = function(arena) {
+MN.Opponent = function(platform, opponentPlatform) {
 	
-	MN.Battler.call(this, arena);
+	MN.Battler.call(this, platform, opponentPlatform);
 	this.setupEvents();
+	this.scale.x *= -1;
+
+	// used to aim spells to the left
+	this.direction = -1;
 };
 
-MN.Hero.prototype = _.extend(Object.create(MN.Battler.prototype), {
+MN.Opponent.prototype = _.extend(Object.create(MN.Battler.prototype), {
 	setupEvents: function() {
 		upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 		upKey.onDown.add(this.moveUp, this);
@@ -17,6 +21,8 @@ MN.Hero.prototype = _.extend(Object.create(MN.Battler.prototype), {
 
 		leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
 		leftKey.onDown.add(this.moveLeft, this);
+
+		
 	}
 
 });

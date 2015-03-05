@@ -1,15 +1,23 @@
-MN.Arena = function() {
-	this.size = [3,3];
+MN.Platform = function(x, y, size, isHeroPlatform) {
+	this.size = size;
+	this.x = x;
+	this.y = y;
 	this.setup();
+
+	if(isHeroPlatform) {
+		this.boundaryX = this.x - 100;
+	}
+	else {
+		this.boundaryX = this.x + this.size[0] * 80;
+	}
 
 
 };
 
-MN.Arena.prototype = {
+MN.Platform.prototype = {
 
 	setup: function() {
 		this.initTiles();
-		var hero = new MN.Hero(this);
 	},
 
 	initTiles: function() {
@@ -17,7 +25,7 @@ MN.Arena.prototype = {
 		for(var i = 0; i < this.size[0]; i++) {
 			var row = [];
 			for(var j = 0; j < this.size[1]; j++) {
-				var tile = new MN.Tile([i,j]);
+				var tile = new MN.Tile(this, [i,j]);
 				row.push(tile);
 			}
 			this.tiles.push(row);

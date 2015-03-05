@@ -9,7 +9,6 @@ MN.State.Battle.prototype = {
 		//this.player = game.user.getBattler();
 
 		var arena = new MN.Arena();
-
 	},
 
 	update: function() {

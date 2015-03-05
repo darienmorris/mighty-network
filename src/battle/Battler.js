@@ -7,14 +7,27 @@
 
 // TODO: should the battle extend a sprite, or have a sprite as a property?
 
-MN.Battler = function(arena) {
+MN.Battler = function(platform, opponentPlatform) {
 	MN.Sprite.call(this, game, game.world.randomX, game.world.randomY, 'player');
 
 	game.add.existing(this);
+	game.physics.enable(this, Phaser.Physics.ARCADE);
+	this.body.immovable = true;
+	this.body.setSize(10,10,20,0);
 
-	this.arena = arena;
-	this.tile = this.arena.getTile();
+	this.platform = platform;
+	this.opponentPlatform = opponentPlatform;
+
+	this.tile = this.platform.getTile();
 	this.moveToTile(this.tile);
+
+	this.anchor.setTo(0.5,0.5);
+
+	this.cards = [];
+	this.ammo = 3;
+	this.MAX_AMMO = 5;
+
+	game.time.events.loop(Phaser.Timer.SECOND, this.addAmmo, this);
 
 };
 
@@ -41,7 +54,7 @@ MN.Battler.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 	},
 
 	processMove: function(newCoordinates) {
-		var validTile = this.arena.tryMove(this.tile.coordinates, newCoordinates);
+		var validTile = this.platform.tryMove(this.tile.coordinates, newCoordinates);
 		if(validTile) {
 			this.moveToTile(validTile);
 			return true;
@@ -51,8 +64,30 @@ MN.Battler.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 
 	moveToTile: function(newTile) {
 		this.tile = newTile;
-		this.x = this.tile.x;
-		this.y = this.tile.y;
+		this.x = this.tile.x + this.tile.width/2;
+		this.y = this.tile.y + this.tile.height/6;
+	},
+
+	useAbility: function(cardIndex) {
+		//TODO: set cooldown on using card
+		this.cards[cardIndex].use(this.direction, this.platform, this.enemyPlatform);
+	},
+
+	addAmmo: function(ammo) {
+		var ammo = ammo || 1;
+
+		this.ammo += ammo;
+
+		if(this.ammo > this.MAX_AMMO) this.ammo = this.MAX_AMMO;
+	},
+
+	attack: function() {
+		if(this.ammo > 0) {
+			var spark = new MN.Spark(this);
+			spark.use();
+			this.ammo--;
+		}
+		
 	}
 
 });
