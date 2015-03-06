@@ -1,11 +1,11 @@
 MN.Opponent = function(platform, opponentPlatform) {
+	this.direction = -1;
 	
 	MN.Battler.call(this, platform, opponentPlatform);
 	this.setupEvents();
 	this.scale.x *= -1;
 
 	// used to aim spells to the left
-	this.direction = -1;
 };
 
 MN.Opponent.prototype = _.extend(Object.create(MN.Battler.prototype), {
@@ -22,7 +22,8 @@ MN.Opponent.prototype = _.extend(Object.create(MN.Battler.prototype), {
 		leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
 		leftKey.onDown.add(this.moveLeft, this);
 
-		
+		attackKey = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
+		attackKey.onDown.add(this.attack, this);
 	}
 
 });

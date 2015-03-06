@@ -10,10 +10,12 @@
 MN.Battler = function(platform, opponentPlatform) {
 	MN.Sprite.call(this, game, game.world.randomX, game.world.randomY, 'player');
 
+	this.MAX_AMMO = 5;
+	this.STARTING_HEALTH = 3;
+
 	game.add.existing(this);
 	game.physics.enable(this, Phaser.Physics.ARCADE);
 	this.body.immovable = true;
-	this.body.setSize(10,10,20,0);
 
 	this.platform = platform;
 	this.opponentPlatform = opponentPlatform;
@@ -24,8 +26,11 @@ MN.Battler = function(platform, opponentPlatform) {
 	this.anchor.setTo(0.5,0.5);
 
 	this.cards = [];
+	this.targets = [];
 	this.ammo = 3;
-	this.MAX_AMMO = 5;
+	this.health = this.STARTING_HEALTH;
+
+	this.body.setSize(10,10,-20 * this.direction,0);
 
 	game.time.events.loop(Phaser.Timer.SECOND, this.addAmmo, this);
 
@@ -81,9 +86,21 @@ MN.Battler.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 		if(this.ammo > this.MAX_AMMO) this.ammo = this.MAX_AMMO;
 	},
 
+	addTarget: function(target) {
+		this.targets.push(target);
+	},
+
+	takeDamage: function(damage) {
+		this.health -= damage;
+
+		if(this.health <= 0) {
+			this.kill();
+		}
+	},
+
 	attack: function() {
 		if(this.ammo > 0) {
-			var spark = new MN.Spark(this);
+			var spark = new MN.Spark(this, this.targets);
 			spark.use();
 			this.ammo--;
 		}

@@ -1,8 +1,10 @@
 MN.Hero = function(platform, opponentPlatform) {
+	this.direction = 1;
 	
 	MN.Battler.call(this, platform, opponentPlatform);
 	this.setupEvents();
-	this.direction = 1;
+
+
 };
 
 MN.Hero.prototype = _.extend(Object.create(MN.Battler.prototype), {

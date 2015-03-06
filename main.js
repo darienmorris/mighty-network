@@ -14,6 +14,10 @@ function preload() {
 }
 
 function create() {
+
+	// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT; //resize your window to see the stage resize too
+    // game.scale.refresh();
+
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	// game.physics.p2.setImpactEvents(true);
 	game.stage.backgroundColor = '#736357';
