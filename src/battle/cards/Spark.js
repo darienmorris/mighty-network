@@ -1,6 +1,6 @@
-MN.Spark = function(battler, targets){
+MN.Spark = function(game, battler, targets){
 	MN.Sprite.call(this, game, battler.x, battler.y, 'spark');
-
+	this.game = game;
 	this.battler = battler;
 	this.targets = targets;
 	this.speed = 500;
@@ -11,13 +11,13 @@ MN.Spark = function(battler, targets){
 
 MN.Spark.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 	use: function() {
-		game.add.existing(this);
+		this.game.add.existing(this);
 		this.body.velocity.x = this.speed * this.battler.direction;
 	},
 
 	update: function() {
 		for(var i = 0; i < this.targets.length; i++) {
-			game.physics.arcade.collide(this, this.targets[i], this.hitPlayer, null, this);
+			this.game.physics.arcade.collide(this, this.targets[i], this.hitPlayer, null, this);
 		}
 
 	},

@@ -7,14 +7,16 @@
 
 // TODO: should the battle extend a sprite, or have a sprite as a property?
 
-MN.Battler = function(platform, opponentPlatform) {
+MN.Battler = function(game, platform, opponentPlatform) {
 	MN.Sprite.call(this, game, game.world.randomX, game.world.randomY, 'player');
+
+	this.game = game;
 
 	this.MAX_AMMO = 5;
 	this.STARTING_HEALTH = 3;
 
-	game.add.existing(this);
-	game.physics.enable(this, Phaser.Physics.ARCADE);
+	this.game.add.existing(this);
+	this.game.physics.enable(this, Phaser.Physics.ARCADE);
 	this.body.immovable = true;
 
 	this.platform = platform;
@@ -32,7 +34,7 @@ MN.Battler = function(platform, opponentPlatform) {
 
 	this.body.setSize(10,10,-20 * this.direction,0);
 
-	game.time.events.loop(Phaser.Timer.SECOND, this.addAmmo, this);
+	this.game.time.events.loop(Phaser.Timer.SECOND, this.addAmmo, this);
 
 };
 
@@ -100,7 +102,7 @@ MN.Battler.prototype = _.extend(Object.create(MN.Sprite.prototype),{
 
 	attack: function() {
 		if(this.ammo > 0) {
-			var spark = new MN.Spark(this, this.targets);
+			var spark = new MN.Spark(this.game, this, this.targets);
 			spark.use();
 			this.ammo--;
 		}

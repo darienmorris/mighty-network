@@ -1,4 +1,5 @@
-MN.Platform = function(x, y, size, isHeroPlatform) {
+MN.Platform = function(game, x, y, size, isHeroPlatform) {
+	this.game = game;
 	this.size = size;
 	this.x = x;
 	this.y = y;
@@ -25,7 +26,7 @@ MN.Platform.prototype = {
 		for(var i = 0; i < this.size[0]; i++) {
 			var row = [];
 			for(var j = 0; j < this.size[1]; j++) {
-				var tile = new MN.Tile(this, [i,j]);
+				var tile = new MN.Tile(this.game, this, [i,j]);
 				row.push(tile);
 			}
 			this.tiles.push(row);

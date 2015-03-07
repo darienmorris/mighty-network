@@ -1,5 +1,5 @@
 
-MN.Tile = function(platform, coordinates) {
+MN.Tile = function(game, platform, coordinates) {
 	this.coordinates = coordinates;
 	var xOffset = 0;
 	MN.Sprite.call(this, game, platform.x+this.coordinates[0]*70.5, platform.y+this.coordinates[1]*74, 'tile');
